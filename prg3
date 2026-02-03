@@ -1,0 +1,172 @@
+mysql> create database emps;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use emps
+Database changed
+
+mysql>  create table person(personid int(10) primary key,name varchar(10) NOT NULL,adar varchar(20)NOT NULL unique,age int(10) check(age<18));
+Query OK, 0 rows affected, 2 warnings (0.05 sec)
+
+
+mysql> CREATE TABLE orders (
+    ->     orderid INT PRIMARY KEY,
+    ->     personid INT,
+    ->     FOREIGN KEY (personid) REFERENCES person(personid)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> DESC person;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| personid | int         | NO   | PRI | NULL    |       |
+| name     | varchar(10) | NO   |     | NULL    |       |
+| adar     | varchar(20) | NO   | UNI | NULL    |       |
+| age      | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> DESC order;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order' at line 1
+mysql> DESC orders;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| orderid  | int  | NO   | PRI | NULL    |       |
+| personid | int  | YES  | MUL | NULL    |       |
++----------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE orders
+    -> ADD orderno INT NOT NULL,
+    -> ADD ordername VARCHAR(50) NOT NULL;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC orders;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| orderid   | int         | NO   | PRI | NULL    |       |
+| personid  | int         | YES  | MUL | NULL    |       |
+| orderno   | int         | NO   |     | NULL    |       |
+| ordername | varchar(50) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| depemp             |
+| emps               |
+| information_schema |
+| mlm                |
+| mysql              |
+| performance_schema |
+| shop               |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+
+mysql> create table employ(employno int(10),employname varchar(10),place varchar(10),phoneno int(10),departmentname varchar(10),jobid int(10),salary int(10));
+Query OK, 0 rows affected, 4 warnings (0.05 sec)
+
+mysql> desc employ;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| employno       | int         | YES  |     | NULL    |       |
+| employname     | varchar(10) | YES  |     | NULL    |       |
+| place          | varchar(10) | YES  |     | NULL    |       |
+| phoneno        | int         | YES  |     | NULL    |       |
+| departmentname | varchar(10) | YES  |     | NULL    |       |
+| jobid          | int         | YES  |     | NULL    |       |
+| salary         | int         | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> create table department(departmentno int(10),employno int(10),employname varchar(10));
+Query OK, 0 rows affected, 2 warnings (0.05 sec)
+
+mysql> desc employ;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| employno       | int         | YES  |     | NULL    |       |
+| employname     | varchar(10) | YES  |     | NULL    |       |
+| place          | varchar(10) | YES  |     | NULL    |       |
+| phoneno        | int         | YES  |     | NULL    |       |
+| departmentname | varchar(10) | YES  |     | NULL    |       |
+| jobid          | int         | YES  |     | NULL    |       |
+| salary         | int         | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc department;;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| departmentno | int         | YES  |     | NULL    |       |
+| employno     | int         | YES  |     | NULL    |       |
+| employname   | varchar(10) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+mysql> alter table employ add primary key(employno);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table department add primary key(departmentno);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+
+
+
+mysql> alter table employ add departmentno int(20);
+Query OK, 0 rows affected, 1 warning (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> alter table employ add FOREIGN KEY(departmentno)REFERENCES department(departmentno)ON DELETE CASCADE;
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC employ;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| employno       | int         | NO   | PRI | NULL    |       |
+| employname     | varchar(10) | YES  |     | NULL    |       |
+| place          | varchar(10) | YES  |     | NULL    |       |
+| phoneno        | int         | YES  |     | NULL    |       |
+| departmentname | varchar(10) | YES  |     | NULL    |       |
+| jobid          | int         | YES  |     | NULL    |       |
+| salary         | int         | YES  |     | NULL    |       |
+| departmentno   | int         | YES  | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+
+mysql> alter table orders drop primary key;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC orders;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| orderid   | int         | NO   |     | NULL    |       |
+| personid  | int         | YES  | MUL | NULL    |       |
+| orderno   | int         | NO   |     | NULL    |       |
+| ordername | varchar(50) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> 
+
+

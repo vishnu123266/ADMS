@@ -1,0 +1,136 @@
+mca@mca-HP-Pro-Tower-280-G9-E-PCI-Desktop-PC:~$ sudo mysql
+[sudo] password for mca: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.44-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database collage
+    -> use collage
+    ->  create table student(rollno int(10),name varchar(10),dob date,place varchar(10),phoneno int(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'use collage
+ create table student(rollno int(10),name varchar(10),dob date,place' at line 2
+mysql> use collage;
+ERROR 1049 (42000): Unknown database 'collage'
+mysql> use collage;
+ERROR 1049 (42000): Unknown database 'collage'
+mysql> create database mlm
+    -> use mlm;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'use mlm' at line 2
+mysql> use mlm;
+ERROR 1049 (42000): Unknown database 'mlm'
+mysql> create database mlm;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use mlm;
+Database changed
+mysql>  create table student(rollno int(10),name varchar(10),dob date,place varchar(10),phoneno int(10));
+Query OK, 0 rows affected, 2 warnings (0.05 sec)
+
+mysql>  create table course(coursecode varchar(10),coursename varchar(10),credit int(10));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> show tables;
++---------------+
+| Tables_in_mlm |
++---------------+
+| course        |
+| student       |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| rollno  | int         | YES  |     | NULL    |       |
+| name    | varchar(10) | YES  |     | NULL    |       |
+| dob     | date        | YES  |     | NULL    |       |
+| place   | varchar(10) | YES  |     | NULL    |       |
+| phoneno | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> desc course;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| coursecode | varchar(10) | YES  |     | NULL    |       |
+| coursename | varchar(10) | YES  |     | NULL    |       |
+| credit     | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into student values(1,'aby','2003-06-23','kottayam',123321);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from  student;
++--------+------+------------+----------+---------+
+| rollno | name | dob        | place    | phoneno |
++--------+------+------------+----------+---------+
+|      1 | aby  | 2003-06-23 | kottayam |  123321 |
++--------+------+------------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql> alter table student drop phoneno;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++---------------+
+| Tables_in_mlm |
++---------------+
+| course        |
+| student       |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollno | int         | YES  |     | NULL    |       |
+| name   | varchar(10) | YES  |     | NULL    |       |
+| dob    | date        | YES  |     | NULL    |       |
+| place  | varchar(10) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> alter table student add adarno int(10);
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollno | int         | YES  |     | NULL    |       |
+| name   | varchar(10) | YES  |     | NULL    |       |
+| dob    | date        | YES  |     | NULL    |       |
+| place  | varchar(10) | YES  |     | NULL    |       |
+| adarno | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table student modify column rollno varchar(10);
+Query OK, 1 row affected (0.08 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollno | varchar(10) | YES  |     | NULL    |       |
+| name   | varchar(10) | YES  |     | NULL    |       |
+| dob    | date        | YES  |     | NULL    |       |
+| place  | varchar(10) | YES  |     | NULL    |       |
+| adarno | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)

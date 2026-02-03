@@ -1,0 +1,362 @@
+ysql> CREATE TABLE department (
+    ->     deptid INT PRIMARY KEY,
+    ->     deptname VARCHAR(30) NOT NULL
+    -> ) ENGINE=InnoDB;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE employee (
+    ->     empid INT PRIMARY KEY,
+    ->     empname VARCHAR(30) NOT NULL,
+    ->     salary INT,
+    ->     deptid INT,
+    ->     FOREIGN KEY (deptid) REFERENCES department(deptid)
+    -> ) ENGINE=InnoDB;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO department (deptid, deptname) VALUES
+    -> (1, 'HR'),
+    -> (2, 'Finance'),
+    -> (3, 'IT'),
+    -> (4, 'Sales'),
+    -> (5, 'Marketing'),
+    -> (6, 'Admin'),
+    -> (7, 'Support'),
+    -> (8, 'R&D'),
+    -> (9, 'Logistics'),
+    -> (10, 'Security');
+Query OK, 10 rows affected (0.02 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO employee (empid, empname, salary, deptid) VALUES
+    -> (101, 'Amit', 30000, 1),
+    -> (102, 'Ravi', 35000, 2),
+    -> (103, 'Neha', 40000, 3),
+    -> (104, 'Priya', 45000, 4),
+    -> (105, 'Karan', 32000, 5),
+    -> (106, 'Sneha', 38000, 6),
+    -> (107, 'Arjun', 50000, 3),
+    -> (108, 'Pooja', 28000, 7),
+    -> (109, 'Rahul', 42000, 8),
+    -> (110, 'Anita', 26000, 1);
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> SELECT*FROM employee;
++-------+---------+--------+--------+
+| empid | empname | salary | deptid |
++-------+---------+--------+--------+
+|   101 | Amit    |  30000 |      1 |
+|   102 | Ravi    |  35000 |      2 |
+|   103 | Neha    |  40000 |      3 |
+|   104 | Priya   |  45000 |      4 |
+|   105 | Karan   |  32000 |      5 |
+|   106 | Sneha   |  38000 |      6 |
+|   107 | Arjun   |  50000 |      3 |
+|   108 | Pooja   |  28000 |      7 |
+|   109 | Rahul   |  42000 |      8 |
+|   110 | Anita   |  26000 |      1 |
++-------+---------+--------+--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT*FROM department;
++--------+-----------+
+| deptid | deptname  |
++--------+-----------+
+|      1 | HR        |
+|      2 | Finance   |
+|      3 | IT        |
+|      4 | Sales     |
+|      5 | Marketing |
+|      6 | Admin     |
+|      7 | Support   |
+|      8 | R&D       |
+|      9 | Logistics |
+|     10 | Security  |
++--------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Department(
+    ->     dept_no VARCHAR(10) PRIMARY KEY,
+    ->     dept_name VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE Employee(
+    ->     emp_no VARCHAR(10) PRIMARY KEY,
+    ->     emp_name VARCHAR(30),
+    ->     designation VARCHAR(20),
+    ->     salary INT,
+    ->     mob VARCHAR(15),
+    ->     dept_no VARCHAR(10),
+    ->     FOREIGN KEY(dept_no) REFERENCES Department(dept_no)
+    -> );
+ERROR 1826 (HY000): Duplicate foreign key constraint name 'Employee_ibfk_1'
+mysql> show tablrs;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tablrs' at line 1
+mysql> show tables;
++----------------+
+| Tables_in_Dept |
++----------------+
+| Department     |
+| department     |
+| employee       |
++----------------+
+3 rows in set (0.01 sec)
+
+mysql> CREATE TABLE Employe(     emp_no VARCHAR(10) PRIMARY KEY,     emp_name VARCHAR(30),     designation VARCHAR(20),     salary INT,     mob VARCHAR(15),     dept_no VARCHAR(10),     FOREIGN KEY(dept_no) REFERENCES Department(dept_no) );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO Department VALUES('dp01','HR');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO Department VALUES('dp02','Finance');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Department VALUES('dp03','IT');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Department VALUES('dp04','Marketting');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Employe VALUES('emp01','Veena','Analyst',30000,'999999999','dp02');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO Employe VALUES('emp02','Anu','Manager',45000,'9797969594','dp01');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Employe VALUES('emp03','Arun','Clerk',15000,'9797531594','dp02');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Employe VALUES('emp04','Asha','Analyst',28000,'9794671594','dp03');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Employe VALUES('emp05','Ravi','Manager',45000,'9794098004','dp03');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Employe VALUES('emp06','Neha','Clerk',5000,'0964098004','dp04');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Employe VALUES('emp07','Amal','Analyst',22000,'0075476004','dp01');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Employe VALUES('emp08','John','Clerk',18000,'0071234504','dp04');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Employe VALUES('emp09','Kiran','Manager',45000,'0071235504','dp02');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO Employe VALUES('emp10','Diddy','Analyst',32000,'0071333304','dp03');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM Department;
++---------+------------+
+| dept_no | dept_name  |
++---------+------------+
+| dp01    | HR         |
+| dp02    | Finance    |
+| dp03    | IT         |
+| dp04    | Marketting |
++---------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Employe;
++--------+----------+-------------+--------+------------+---------+
+| emp_no | emp_name | designation | salary | mob        | dept_no |
++--------+----------+-------------+--------+------------+---------+
+| emp01  | Veena    | Analyst     |  30000 | 999999999  | dp02    |
+| emp02  | Anu      | Manager     |  45000 | 9797969594 | dp01    |
+| emp03  | Arun     | Clerk       |  15000 | 9797531594 | dp02    |
+| emp04  | Asha     | Analyst     |  28000 | 9794671594 | dp03    |
+| emp05  | Ravi     | Manager     |  45000 | 9794098004 | dp03    |
+| emp06  | Neha     | Clerk       |   5000 | 0964098004 | dp04    |
+| emp07  | Amal     | Analyst     |  22000 | 0075476004 | dp01    |
+| emp08  | John     | Clerk       |  18000 | 0071234504 | dp04    |
+| emp09  | Kiran    | Manager     |  45000 | 0071235504 | dp02    |
+| emp10  | Diddy    | Analyst     |  32000 | 0071333304 | dp03    |
++--------+----------+-------------+--------+------------+---------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT emp_no, emp_name FROM Employe WHERE dept_no='dp02';
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| emp01  | Veena    |
+| emp03  | Arun     |
+| emp09  | Kiran    |
++--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT emp_no, emp_name, designation, dept_no, salary FROM Employe ORDER BY salary DESC;
++--------+----------+-------------+---------+--------+
+| emp_no | emp_name | designation | dept_no | salary |
++--------+----------+-------------+---------+--------+
+| emp02  | Anu      | Manager     | dp01    |  45000 |
+| emp05  | Ravi     | Manager     | dp03    |  45000 |
+| emp09  | Kiran    | Manager     | dp02    |  45000 |
+| emp10  | Diddy    | Analyst     | dp03    |  32000 |
+| emp01  | Veena    | Analyst     | dp02    |  30000 |
+| emp04  | Asha     | Analyst     | dp03    |  28000 |
+| emp07  | Amal     | Analyst     | dp01    |  22000 |
+| emp08  | John     | Clerk       | dp04    |  18000 |
+| emp03  | Arun     | Clerk       | dp02    |  15000 |
+| emp06  | Neha     | Clerk       | dp04    |   5000 |
++--------+----------+-------------+---------+--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT emp_no, emp_name FROM Employe WHERE salary BETWEEN 20000 AND 30000;
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| emp01  | Veena    |
+| emp04  | Asha     |
+| emp07  | Amal     |
++--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT designation FROM Employe;
++-------------+
+| designation |
++-------------+
+| Analyst     |
+| Manager     |
+| Clerk       |
++-------------+
+3 rows in set (0.02 sec)
+
+mysql> UPDATE Employe SET salary=45000 WHERE designation='Manager';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 3  Changed: 0  Warnings: 0
+
+mysql> UPDATE Employe SET mob='999999999' WHERE emp_name='Veena';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> DELETE FROM Employe WHERE salary=5000;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SELECT emp_name, mob FROM Employe WHERE emp_name LIKE 'A%';
++----------+------------+
+| emp_name | mob        |
++----------+------------+
+| Anu      | 9797969594 |
+| Arun     | 9797531594 |
+| Asha     | 9794671594 |
+| Amal     | 0075476004 |
++----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Employe WHERE LENGTH(emp_name) >= 3 AND salary > 20000;
++--------+----------+-------------+--------+------------+---------+
+| emp_no | emp_name | designation | salary | mob        | dept_no |
++--------+----------+-------------+--------+------------+---------+
+| emp01  | Veena    | Analyst     |  30000 | 999999999  | dp02    |
+| emp02  | Anu      | Manager     |  45000 | 9797969594 | dp01    |
+| emp04  | Asha     | Analyst     |  28000 | 9794671594 | dp03    |
+| emp05  | Ravi     | Manager     |  45000 | 9794098004 | dp03    |
+| emp07  | Amal     | Analyst     |  22000 | 0075476004 | dp01    |
+| emp09  | Kiran    | Manager     |  45000 | 0071235504 | dp02    |
+| emp10  | Diddy    | Analyst     |  32000 | 0071333304 | dp03    |
++--------+----------+-------------+--------+------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Employe WHERE emp_no IN('emp01','emp02','emp03');
++--------+----------+-------------+--------+------------+---------+
+| emp_no | emp_name | designation | salary | mob        | dept_no |
++--------+----------+-------------+--------+------------+---------+
+| emp01  | Veena    | Analyst     |  30000 | 999999999  | dp02    |
+| emp02  | Anu      | Manager     |  45000 | 9797969594 | dp01    |
+| emp03  | Arun     | Clerk       |  15000 | 9797531594 | dp02    |
++--------+----------+-------------+--------+------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT emp_no, emp_name FROM Employe WHERE salary BETWEEN 10000 AND 30000;
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| emp01  | Veena    |
+| emp03  | Arun     |
+| emp04  | Asha     |
+| emp07  | Amal     |
+| emp08  | John     |
++--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT emp_name FROM Employe WHERE designation IN('Manager','Analyst');
++----------+
+| emp_name |
++----------+
+| Veena    |
+| Anu      |
+| Asha     |
+| Ravi     |
+| Amal     |
+| Kiran    |
+| Diddy    |
++----------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT dept_no, COUNT(*) AS total_employees FROM Employe GROUP BY dept_no;
++---------+-----------------+
+| dept_no | total_employees |
++---------+-----------------+
+| dp01    |               2 |
+| dp02    |               3 |
+| dp03    |               3 |
+| dp04    |               1 |
++---------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT dept_no, AVG(salary) AS avg_salary FROM Employe GROUP BY dept_no;
++---------+------------+
+| dept_no | avg_salary |
++---------+------------+
+| dp01    | 33500.0000 |
+| dp02    | 30000.0000 |
+| dp03    | 35000.0000 |
+| dp04    | 18000.0000 |
++---------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT dept_no, SUM(salary) AS total_salary FROM Employe GROUP BY dept_no;
++---------+--------------+
+| dept_no | total_salary |
++---------+--------------+
+| dp01    |        67000 |
+| dp02    |        90000 |
+| dp03    |       105000 |
+| dp04    |        18000 |
++---------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT dept_no, MAX(salary) AS highest_salary, MIN(salary) AS lowest_salary FROM Employe GROUP BY dept_no;
++---------+----------------+---------------+
+| dept_no | highest_salary | lowest_salary |
++---------+----------------+---------------+
+| dp01    |          45000 |         22000 |
+| dp02    |          45000 |         15000 |
+| dp03    |          45000 |         28000 |
+| dp04    |          18000 |         18000 |
++---------+----------------+---------------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT dept_no, AVG(salary) AS average_salary FROM Employe WHERE dept_no<>'dp01' GROUP BY dept_no;
++---------+----------------+
+| dept_no | average_salary |
++---------+----------------+
+| dp02    |     30000.0000 |
+| dp03    |     35000.0000 |
+| dp04    |     18000.0000 |
++---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT dept_no, AVG(salary) AS average_salary FROM Employe WHERE dept_no<>'dp01' GROUP BY dept_no HAVING AVG(salary)>20000 ORDER BY average_salary ASC;
++---------+----------------+
+| dept_no | average_salary |
++---------+----------------+
+| dp02    |     30000.0000 |
+| dp03    |     35000.0000 |
++---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+
