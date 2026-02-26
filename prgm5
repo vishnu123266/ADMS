@@ -1,0 +1,214 @@
+mca@mca-HP-Pro-Tower-280-G9-E-PCI-Desktop-PC:~$ sudo mysql
+[sudo] password for mca: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.45-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database product;
+ERROR 1007 (HY000): Can't create database 'product'; database exists
+mysql> create databse product1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databse product1' at line 1
+mysql> create database product1;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use product1;
+Database changed
+mysql> create table order_details(order_id int(10),product_name varchar(20),order_no int(10),order_date date);
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+
+mysql> desc order_details;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| order_id     | int         | YES  |     | NULL    |       |
+| product_name | varchar(20) | YES  |     | NULL    |       |
+| order_no     | int         | YES  |     | NULL    |       |
+| order_date   | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into order_details values(1,'laptop',234,'2000-03-02),(2,'desktop'456,'2001-02-02),(3,'keyboard',457,'2000-03-02'),(4,'mouse',500,'2001-03-02),(5,'antivirus',501,'2002-03-02);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desktop'456,'2001-02-02),(3,'keyboard',457,'2000-03-02'),(4,'mouse',500,'2001-03' at line 1
+mysql> insert into order_details values(1,'laptop',234,'2000-03-02'),(2,'desktop'456,'2001-02-02'),(3,'keyboard',457,'2000-03-02'),(4,'mouse',500,'2001-03-02'),(5,'antivirus',501,'2002-03-02');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '456,'2001-02-02'),(3,'keyboard',457,'2000-03-02'),(4,'mouse',500,'2001-03-02'),(' at line 1
+mysql> insert into order_details values(1,'laptop',234,'2000-03-02'),(2,'desktop'456,'2001-02-02'),(3,'keyboard',457,'2000-03-02'),(4,'mouse',500,'2001-03-02'),(5,'antivirus',501,'2002-03-02');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '456,'2001-02-02'),(3,'keyboard',457,'2000-03-02'),(4,'mouse',500,'2001-03-02'),(' at line 1
+mysql> insert into order_details values(1,'laptop',234,'2000-03-02'),(2,'desktop',456,'2001-02-02'),(3,'keyboard',457,'2000-03-02'),(4,'mouse',500,'2001-03-02'),(5,'antivirus',501,'2002-03-02');
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select*from order_details;
++----------+--------------+----------+------------+
+| order_id | product_name | order_no | order_date |
++----------+--------------+----------+------------+
+|        1 | laptop       |      234 | 2000-03-02 |
+|        2 | desktop      |      456 | 2001-02-02 |
+|        3 | keyboard     |      457 | 2000-03-02 |
+|        4 | mouse        |      500 | 2001-03-02 |
+|        5 | antivirus    |      501 | 2002-03-02 |
++----------+--------------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into order_details values(6,'printer',600,'2003-04-02'),(7,'scanner',601,'2004-05-02);
+    '> insert into order_details values(6,'printer',600,'2003-04-02'),(7,'scanner',601,'2004-05-02');
+    '> insert into order_details values(6,'printer',600,'2003-04-02'),(7,'scanner',601,'2004-05-02');l
+    '> insert into order_details values(6,'printer',600,'2003-04-02'),(7,'scanner',601,'2004-05-02');
+    '> ^C
+mysql> insert into order_details values(6,'printer',600,'2003-04-02'),(7,'scanner',601,'2004-05-02');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from order_details;
++----------+--------------+----------+------------+
+| order_id | product_name | order_no | order_date |
++----------+--------------+----------+------------+
+|        1 | laptop       |      234 | 2000-03-02 |
+|        2 | desktop      |      456 | 2001-02-02 |
+|        3 | keyboard     |      457 | 2000-03-02 |
+|        4 | mouse        |      500 | 2001-03-02 |
+|        5 | antivirus    |      501 | 2002-03-02 |
+|        6 | printer      |      600 | 2003-04-02 |
+|        7 | scanner      |      601 | 2004-05-02 |
++----------+--------------+----------+------------+
+7 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from order_details;
++----------+--------------+----------+------------+
+| order_id | product_name | order_no | order_date |
++----------+--------------+----------+------------+
+|        1 | laptop       |      234 | 2000-03-02 |
+|        2 | desktop      |      456 | 2001-02-02 |
+|        3 | keyboard     |      457 | 2000-03-02 |
+|        4 | mouse        |      500 | 2001-03-02 |
+|        5 | antivirus    |      501 | 2002-03-02 |
++----------+--------------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from order_details where order_id in(4,5);
+Query OK, 2 rows affected (0.00 sec)
+
+mysql> select*from order_details;
++----------+--------------+----------+------------+
+| order_id | product_name | order_no | order_date |
++----------+--------------+----------+------------+
+|        1 | laptop       |      234 | 2000-03-02 |
+|        2 | desktop      |      456 | 2001-02-02 |
+|        3 | keyboard     |      457 | 2000-03-02 |
++----------+--------------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> savepoint svp_update;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from order_details;
++----------+--------------+----------+------------+
+| order_id | product_name | order_no | order_date |
++----------+--------------+----------+------------+
+|        1 | laptop       |      234 | 2000-03-02 |
+|        2 | desktop      |      456 | 2001-02-02 |
+|        3 | keyboard     |      457 | 2000-03-02 |
++----------+--------------+----------+------------+
+3 rows in set (0.01 sec)
+
+mysql> update order_details set product_name='Gaming keyboard' where order_no=457;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from order_details;
++----------+-----------------+----------+------------+
+| order_id | product_name    | order_no | order_date |
++----------+-----------------+----------+------------+
+|        1 | laptop          |      234 | 2000-03-02 |
+|        2 | desktop         |      456 | 2001-02-02 |
+|        3 | Gaming keyboard |      457 | 2000-03-02 |
++----------+-----------------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into order_details values(8,'speaker',700,'2005-06-02'),(9,'webcam',7601,'2006-07-02);
+    '> ^C
+mysql> insert into order_details values(8,'speaker',700,'2005-06-02'),(9,'webcam',7601,'2006-07-02');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> savepoint svp_delete;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from order_details;
++----------+-----------------+----------+------------+
+| order_id | product_name    | order_no | order_date |
++----------+-----------------+----------+------------+
+|        1 | laptop          |      234 | 2000-03-02 |
+|        2 | desktop         |      456 | 2001-02-02 |
+|        3 | Gaming keyboard |      457 | 2000-03-02 |
+|        8 | speaker         |      700 | 2005-06-02 |
+|        9 | webcam          |     7601 | 2006-07-02 |
++----------+-----------------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> delete from order_details where product_name='desktop';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from order_details;
++----------+-----------------+----------+------------+
+| order_id | product_name    | order_no | order_date |
++----------+-----------------+----------+------------+
+|        1 | laptop          |      234 | 2000-03-02 |
+|        3 | Gaming keyboard |      457 | 2000-03-02 |
+|        8 | speaker         |      700 | 2005-06-02 |
+|        9 | webcam          |     7601 | 2006-07-02 |
++----------+-----------------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> rollback to svp_delete;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from order_details;
++----------+-----------------+----------+------------+
+| order_id | product_name    | order_no | order_date |
++----------+-----------------+----------+------------+
+|        1 | laptop          |      234 | 2000-03-02 |
+|        2 | desktop         |      456 | 2001-02-02 |
+|        3 | Gaming keyboard |      457 | 2000-03-02 |
+|        8 | speaker         |      700 | 2005-06-02 |
+|        9 | webcam          |     7601 | 2006-07-02 |
++----------+-----------------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> rollback to svp_update;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from order_details;
++----------+--------------+----------+------------+
+| order_id | product_name | order_no | order_date |
++----------+--------------+----------+------------+
+|        1 | laptop       |      234 | 2000-03-02 |
+|        2 | desktop      |      456 | 2001-02-02 |
+|        3 | keyboard     |      457 | 2000-03-02 |
++----------+--------------+----------+------------+
+3 rows in set (0.00 sec)
