@@ -1,0 +1,315 @@
+
+mysql> use exp6;
+Database changed
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE factorial_num(IN n INT)
+    -> BEGIN
+    ->     DECLARE i INT DEFAULT 1;
+    ->     DECLARE fact BIGINT DEFAULT 1;
+    -> 
+    ->     WHILE i <= n DO
+    ->         SET fact = fact * i;
+    ->         SET i = i + 1;
+    ->     END WHILE;
+    -> 
+    ->     SELECT fact AS factorial;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL factorial_num(5);
++-----------+
+| factorial |
++-----------+
+|       120 |
++-----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE greatest_three(
+    ->     IN a INT,
+    ->     IN b INT,
+    ->     IN c INT
+    -> )
+    -> BEGIN
+    ->     IF a >= b AND a >= c THEN
+    ->         SELECT a AS greatest;
+    ->     ELSEIF b >= a AND b >= c THEN
+    ->         SELECT b AS greatest;
+    ->     ELSE
+    ->         SELECT c AS greatest;
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL greatest_three(10,25,15);
++----------+
+| greatest |
++----------+
+|       25 |
++----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE find_grade(IN mark INT)
+    -> BEGIN
+    ->     IF mark >= 90 THEN
+    ->         SELECT 'Grade A' AS Grade;
+    ->     ELSEIF mark >= 80 THEN
+    ->         SELECT 'Grade B' AS Grade;
+    ->     ELSEIF mark >= 70 THEN
+    ->         SELECT 'Grade C' AS Grade;
+    ->     ELSEIF mark >= 60 THEN
+    ->         SELECT 'Grade D' AS Grade;
+    ->     ELSE
+    ->         SELECT 'Grade F' AS Grade;
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE reverse_number(IN num INT)
+    -> BEGIN
+    ->     DECLARE rev INT DEFAULT 0;
+    ->     DECLARE rem INT;
+    -> 
+    ->     WHILE num > 0 DO
+    ->         SET rem = num % 10;
+    ->         SET rev = rev * 10 + rem;
+    ->         SET num = FLOOR(num / 10);
+    ->     END WHILE;
+    -> 
+    ->     SELECT rev AS reversed_number;
+    -> END //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> 
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE sum_series(IN n INT)
+    -> BEGIN
+    ->     DECLARE i INT DEFAULT 1;
+    ->     DECLARE total INT DEFAULT 0;
+    -> 
+    ->     WHILE i <= n DO
+    ->         SET total = total + i;
+    ->         SET i = i + 1;
+    ->     END WHILE;
+    -> 
+    ->     SELECT total AS sum_of_series;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CREATE TABLE account(
+    ->     account_id INT PRIMARY KEY,
+    ->     balance INT
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> 
+mysql> INSERT INTO account VALUES
+    -> (100,10000),
+    -> (101,4000),
+    -> (102,15000),
+    -> (103,1000);
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE withdraw_amount(
+    ->     IN acc_id INT,
+    ->     IN amt INT
+    -> )
+    -> BEGIN
+    ->     DECLARE current_balance INT;
+    -> 
+    ->     SELECT balance INTO current_balance
+    ->     FROM account
+    ->     WHERE account_id = acc_id;
+    -> 
+    ->     IF current_balance IS NULL THEN
+    ->         SELECT 'Account does not exist' AS Message;
+    -> 
+    ->     ELSEIF (current_balance - amt) >= 1000 THEN
+    ->         UPDATE account
+    ->         SET balance = balance - amt
+    ->         WHERE account_id = acc_id;
+    -> 
+    ->         SELECT 'Withdrawal successful' AS Message;
+    -> 
+    ->     ELSE
+    ->         SELECT 'Insufficient balance (Minimum 1000 required)' AS Message;
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE FUNCTION sum_of_digits(n INT)
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE sum INT DEFAULT 0;
+    ->     DECLARE rem INT;
+    -> 
+    ->     WHILE n > 0 DO
+    ->         SET rem = n % 10;
+    ->         SET sum = sum + rem;
+    ->         SET n = FLOOR(n / 10);
+    ->     END WHILE;
+    -> 
+    ->     RETURN sum;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> SELECT sum_of_digits(1234);
++---------------------+
+| sum_of_digits(1234) |
++---------------------+
+|                  10 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE employee(
+    ->     emp_id INT PRIMARY KEY,
+    ->     salary INT
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE FUNCTION get_salary(eid INT)
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE sal INT;
+    -> 
+    ->     SELECT salary INTO sal
+    ->     FROM employee
+    ->     WHERE emp_id = eid;
+    -> 
+    ->     RETURN sal;
+    -> END //
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> SELECT get_salary(1);
++---------------+
+| get_salary(1) |
++---------------+
+|          NULL |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> CALL greatest_three(10, 25, 15);
++----------+
+| greatest |
++----------+
+|       25 |
++----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CALL factorial_num(5);
++-----------+
+| factorial |
++-----------+
+|       120 |
++-----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CALL find_grade(85);
++---------+
+| Grade   |
++---------+
+| Grade B |
++---------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CALL reverse_number(1234);
++-----------------+
+| reversed_number |
++-----------------+
+|            4321 |
++-----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CALL sum_series(5);
++---------------+
+| sum_of_series |
++---------------+
+|            15 |
++---------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CALL withdraw_amount(100, 2000);
++-----------------------+
+| Message               |
++-----------------------+
+| Withdrawal successful |
++-----------------------+
+1 row in set (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CALL withdraw_amount(103, 500);
++----------------------------------------------+
+| Message                                      |
++----------------------------------------------+
+| Insufficient balance (Minimum 1000 required) |
++----------------------------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT sum_of_digits(1234);
++---------------------+
+| sum_of_digits(1234) |
++---------------------+
+|                  10 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT get_salary(1);
++---------------+
+| get_salary(1) |
++---------------+
+|          NULL |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> 
+
+
